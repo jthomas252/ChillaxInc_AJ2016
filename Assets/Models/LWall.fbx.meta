@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: ce797e3bbab383d4ea94c5d0038e41c1
-timeCreated: 1452464395
+guid: 2b167de6bcf75bb4d9efc3fddc0895a8
+timeCreated: 1452463484
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: default
-    100002: //RootNode
-    400000: default
-    400002: //RootNode
-    2300000: default
-    3300000: default
-    4300000: default
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: LWall
   materials:
     importMaterials: 1
     materialName: 0
