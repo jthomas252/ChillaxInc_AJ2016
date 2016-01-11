@@ -2,16 +2,14 @@
 using System.Collections;
 
 namespace Relax.Handlers {
-    public class Game : MonoBehaviour {
+    public class GameHandler : MonoBehaviour {
 
-        // Use this for initialization
         void Start() {
 
-        }
+        }//Start
 
-        // Update is called once per frame
         void Update() {
 
-        }
-    }
+        }//Update
+    }//GameHandler
 }

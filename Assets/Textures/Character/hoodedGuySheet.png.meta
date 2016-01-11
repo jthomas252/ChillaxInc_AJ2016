@@ -1,15 +1,21 @@
 fileFormatVersion: 2
 guid: 916e53a9d233a0942a7b7f136c587161
-timeCreated: 1452467253
+timeCreated: 1452489939
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hoodedGuySheet_0
-    21300002: hoodedGuySheet_1
-    21300004: hoodedGuySheet_2
-    21300006: hoodedGuySheet_3
-    21300008: hoodedGuySheet_4
-    21300010: hoodedGuySheet_5
+    21300000: hoodedGuySheet_l0
+    21300002: hoodedGuySheet_l1
+    21300004: hoodedGuySheet_l2
+    21300006: hoodedGuySheet_d0
+    21300008: hoodedGuySheet_d1
+    21300010: hoodedGuySheet_d2
+    21300012: hoodedGuySheet_u0
+    21300014: hoodedGuySheet_u1
+    21300016: hoodedGuySheet_u2
+    21300018: hoodedGuySheet_r0
+    21300020: hoodedGuySheet_r1
+    21300022: hoodedGuySheet_r2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,7 +41,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
+    filterMode: 0
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -55,65 +61,125 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hoodedGuySheet_0
+    - name: hoodedGuySheet_l0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 336
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_l1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 336
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_l2
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 336
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_d0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_d1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 224
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_d2
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 224
+        width: 56
+        height: 112
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: hoodedGuySheet_u0
       rect:
         serializedVersion: 2
         x: 0
         y: 112
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hoodedGuySheet_1
+    - name: hoodedGuySheet_u1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 56
         y: 112
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hoodedGuySheet_2
+    - name: hoodedGuySheet_u2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 112
         y: 112
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hoodedGuySheet_3
+    - name: hoodedGuySheet_r0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hoodedGuySheet_4
+    - name: hoodedGuySheet_r1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 56
         y: 0
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: hoodedGuySheet_5
+    - name: hoodedGuySheet_r2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 112
         y: 0
-        width: 64
+        width: 56
         height: 112
       alignment: 7
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
