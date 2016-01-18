@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Relax.Handlers {
+namespace Relax.Game {
     public class GameHandler : MonoBehaviour {
         private bool paused;
 

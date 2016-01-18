@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; 
+using Relax.Objects.Interactables;
 
 namespace Relax.Interface {
     public class ObjectUIController : MonoBehaviour {

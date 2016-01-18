@@ -1,21 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Relax.Interface {
+namespace Relax.Objects.Interactables {
     public class ObjectTooltipInfo : MonoBehaviour {
         //Tooltip information
-        public string name = "N/A";
-        public string description = "N/A";
-        public string interaction = "Left click to Interact.";
-        public string status = "N/A"; 
+        public string name = "";
+        public string description = "";
+        public string status = ""; 
 
         //Object interaction callbacks
         public bool canInteract = true; 
         public delegate void ObjectUICallback(); 
         public event ObjectUICallback FirstButtonCallback;
         public event ObjectUICallback SecondButtonCallback;
-        public event ObjectUICallback ThirdButtonCallback; 
-        public event ObjectUICallback FourthButtonCallback; 
 
         //Button names
         [System.Serializable]
@@ -45,16 +42,6 @@ namespace Relax.Interface {
                 case 1:
                     if (SecondButtonCallback != null) 
                         SecondButtonCallback();
-                    break;
-
-                case 2:
-                    if (ThirdButtonCallback != null) 
-                        ThirdButtonCallback();
-                    break;
-
-                case 3:
-                    if (FourthButtonCallback != null) 
-                        FourthButtonCallback();
                     break;
             }
         }//CallButton

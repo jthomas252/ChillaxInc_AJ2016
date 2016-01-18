@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; 
+using Relax.Objects.Interactables;
 
 namespace Relax.Interface {
     public class TooltipUIController : MonoBehaviour {
@@ -14,8 +15,6 @@ namespace Relax.Interface {
 
         //UI Elements
         public Text headerText; 
-        public Text descriptionText; 
-        public Text interactionText; 
 
         private float activeTime = 0f; 
         private CanvasGroup canvas; 
@@ -35,8 +34,6 @@ namespace Relax.Interface {
             _targetObject = info.transform.gameObject; 
 
             headerText.text = info.name; 
-            descriptionText.text = info.description; 
-            interactionText.text = info.interaction; 
         }//Show
 
         private void Show() {

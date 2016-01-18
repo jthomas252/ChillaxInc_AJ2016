@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Relax.Objects.Pickups;
+using Relax.Objects.Interactables; 
 
 namespace Relax.Objects.Characters {
     public class Robot : Character {
+        public PickupObject pickup; 
+
         protected void Start() {
             base.Start(); 
         }//Start

@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems; 
 using System.Collections;
 using Relax.Interface; 
+using Relax.Objects.Interactables;
 
 namespace Relax.Utility {
     public class MouseControl : MonoBehaviour {
