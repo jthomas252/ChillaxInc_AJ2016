@@ -1,14 +1,18 @@
 fileFormatVersion: 2
 guid: fe3ab65b6b8b0054f84d8092faee2ec9
-timeCreated: 1452464403
+timeCreated: 1453078557
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Camera
+    100002: //RootNode
+    100004: Wall
+    400000: Camera
+    400002: //RootNode
+    400004: Wall
+    2300000: Wall
+    3300000: Wall
     4300000: Wall
   materials:
     importMaterials: 1

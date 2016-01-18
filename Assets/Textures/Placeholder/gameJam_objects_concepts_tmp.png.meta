@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 81bd7e72f3a35f54290200eeadb2362b
+timeCreated: 1452915512
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: temp_ph_robot
+    21300002: gameJam_objects_concepts_tmp_1
+    21300004: gameJam_objects_concepts_tmp_2
+    21300006: temp_ph_couch
+    21300008: temp_ph_tv
+    21300010: temp_ph_chair
+    21300012: tmp_ph_cabinet
+    21300014: tmp_ph_table
+    21300016: temp_ph_lamp
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: temp_ph_robot
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 380
+        width: 35
+        height: 68
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameJam_objects_concepts_tmp_1
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 443
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameJam_objects_concepts_tmp_2
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 388
+        width: 164
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: temp_ph_couch
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 345
+        width: 119
+        height: 119
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: temp_ph_tv
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 366
+        width: 46
+        height: 52
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: temp_ph_chair
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 279
+        width: 76
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: tmp_ph_cabinet
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 230
+        width: 149
+        height: 117
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: tmp_ph_table
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 61
+        width: 113
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: temp_ph_lamp
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 67
+        width: 22
+        height: 106
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

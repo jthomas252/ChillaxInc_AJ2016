@@ -4,10 +4,10 @@ using Relax.Utility;
 
 namespace Relax.Objects.Characters {
     public class Character : MonoBehaviour {
-        private NavMeshAgent navAgent;
-        private Animator animator; 
+        protected NavMeshAgent navAgent;
+        protected Animator animator; 
 
-        void Start() {
+        protected void Start() {
             if (GetComponent<NavMeshAgent>()) {
                 navAgent = GetComponent<NavMeshAgent>();
                 navAgent.updateRotation = false; 
@@ -22,18 +22,11 @@ namespace Relax.Objects.Characters {
             }
         }//Start
 
-        void Update() {
-            if (Input.GetMouseButtonDown(0)) {
-                Ray screenRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        protected void Update() {
+        }//Update
 
-                RaycastHit hit;
-                if (Physics.Raycast(screenRay, out hit)) {
-                    navAgent.SetDestination(hit.point);
-                    Debug.DrawRay(hit.point, new Vector3(0f,1f), Color.red, 5f);
-                }
-            }
-
-            Debug.Log(navAgent.desiredVelocity);
+        protected void UpdateAnimation() {
+            //Change this to add a bool of some form to allow it to go back to idle state
             if (Mathf.Abs(navAgent.desiredVelocity.x) > Mathf.Abs(navAgent.desiredVelocity.z)) {
                 animator.SetFloat("MoveX", navAgent.desiredVelocity.x);
                 animator.SetFloat("MoveZ", 0f);
@@ -41,6 +34,6 @@ namespace Relax.Objects.Characters {
                 animator.SetFloat("MoveX", 0f);
                 animator.SetFloat("MoveZ", navAgent.desiredVelocity.z);
             }
-        }//Update
+        }//UpdateAnimation
     }//Character
 }
