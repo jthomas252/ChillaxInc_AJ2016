@@ -4,8 +4,8 @@ using Relax.Game;
 
 namespace Relax.Utility {
     public class Top {
-        private GameHandler _GAME; 
-        public GameHandler GAME {
+        private static GameHandler _GAME; 
+        public static GameHandler GAME {
             get {
                 if (_GAME == null) {
                     if (GameObject.FindObjectOfType<GameHandler>()) {
@@ -17,5 +17,7 @@ namespace Relax.Utility {
                 return _GAME; 
             }
         }
+
+
     }//Top
 }

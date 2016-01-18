@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; 
+using Relax.Utility; 
 
 namespace Relax.Interface {
     public class MainGameUIController : MonoBehaviour {
-        public void OnWallHide() {
-            GameObject[] objects = GameObject.FindGameObjectsWithTag("WallHide");
-            for (int i = 0; i < objects.Length; ++i) {
-                objects[i].transform.localScale = new Vector3(1f,0.1f); 
+        public CanvasGroup pauseGroup; 
+
+        public void OnPauseButton() {
+            Top.GAME.Pause(); 
+            
+            if (pauseGroup != null) {
+                if (Time.timeScale == 1) {
+                    pauseGroup.gameObject.SetActive(false);
+                } else {
+                    pauseGroup.gameObject.SetActive(true);
+                }
             }
-        }//OnWallHide
+        }//OnPauseButton
     }//MainGameUIController
 }

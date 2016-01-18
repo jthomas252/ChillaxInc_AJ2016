@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Relax.Utility; 
+using Relax.Objects.Interactables;
 
 namespace Relax.Objects.Characters {
     public class Character : MonoBehaviour {
         protected NavMeshAgent navAgent;
         protected Animator animator; 
+        public float interactRange = 2.5f; 
+        public InteractableObject interactTarget; 
 
         protected void Start() {
             if (GetComponent<NavMeshAgent>()) {
@@ -23,6 +26,13 @@ namespace Relax.Objects.Characters {
         }//Start
 
         protected void Update() {
+            if (interactTarget != null) {
+                if (Vector3.Distance(transform.position, interactTarget.transform.position) < interactRange) {
+                    interactTarget.Interact(); 
+                    interactTarget = null; 
+                    navAgent.Stop();
+                }
+            }
         }//Update
 
         protected void UpdateAnimation() {

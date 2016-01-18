@@ -2,6 +2,7 @@
 using System.Collections;
 using Relax.Objects.Pickups;
 using Relax.Objects.Interactables; 
+using Relax.Utility; 
 
 namespace Relax.Objects.Characters {
     public class Robot : Character {
@@ -20,7 +21,13 @@ namespace Relax.Objects.Characters {
                 }
             }
 
-            base.UpdateAnimation(); 
+            base.UpdateAnimation();
+            base.Update(); 
         }//Update
+
+        public void SetInteractionTarget(InteractableObject obj) {
+            base.interactTarget = obj;
+            navAgent.SetDestination(obj.transform.position); 
+        }//SetInteractionTarget
     }//Robot
 }

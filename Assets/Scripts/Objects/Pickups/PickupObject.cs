@@ -13,8 +13,8 @@ namespace Relax.Objects.Pickups {
 
         private void OnDrawGizmos() {
             BoxCollider box = GetComponent<BoxCollider>();
-            Gizmos.color = new Color(0f, 0f, 1f, 0.5f);
-            Gizmos.DrawCube(box.transform.position, box.size);
+            Gizmos.color = new Color(0f, 0f, 1f, 1f);
+            Gizmos.DrawWireCube(box.transform.position, box.size);
         }//OnDrawGizmos
     }//PickupObject
 }

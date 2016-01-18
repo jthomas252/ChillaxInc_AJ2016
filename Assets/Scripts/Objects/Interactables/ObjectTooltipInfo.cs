@@ -25,14 +25,13 @@ namespace Relax.Objects.Interactables {
             }
         }
 
-        public ButtonName[] buttonNames = new ButtonName[4]{
+        public ButtonName[] buttonNames = new ButtonName[2]{
             new ButtonName("Button1", true),
-            new ButtonName("Button2", true),
-            new ButtonName("Button3", true),
-            new ButtonName("Button4", true)
+            new ButtonName("Button2", true)
         };
 
         public void CallButton(int i) {
+            Debug.Log(i);
             switch (i) {
                 case 0:
                     if (FirstButtonCallback != null) 
