@@ -24,10 +24,5 @@ namespace Relax.Objects.Characters {
             base.UpdateAnimation();
             base.Update(); 
         }//Update
-
-        public void SetInteractionTarget(InteractableObject obj) {
-            base.interactTarget = obj;
-            navAgent.SetDestination(obj.transform.position); 
-        }//SetInteractionTarget
     }//Robot
 }

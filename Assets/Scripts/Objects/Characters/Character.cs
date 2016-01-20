@@ -10,6 +10,16 @@ namespace Relax.Objects.Characters {
         public float interactRange = 2.5f; 
         public InteractableObject interactTarget; 
 
+        //Display indicator -- Probably move to a seperate class? 
+        public SpriteRenderer indicator; 
+        public SpriteRenderer indicatorIcon; 
+
+        private bool interacting; 
+        private float interactionTime;
+        private float timeToInteract;
+        private InteractableObject.InteractionType interactionType; 
+        private string indicatorType;
+
         protected void Start() {
             if (GetComponent<NavMeshAgent>()) {
                 navAgent = GetComponent<NavMeshAgent>();
@@ -27,10 +37,21 @@ namespace Relax.Objects.Characters {
 
         protected void Update() {
             if (interactTarget != null) {
-                if (Vector3.Distance(transform.position, interactTarget.transform.position) < interactRange) {
-                    interactTarget.Interact(); 
-                    interactTarget = null; 
-                    navAgent.Stop();
+                if (interacting) {
+                    if (interactionTime > timeToInteract) {
+                        interactTarget.Interact();
+                        interactTarget = null; 
+                        interacting = false;
+                        HideIndicator(); 
+                    } else {
+                        interactionTime += Time.deltaTime; 
+                    }
+                } else {
+                    if (Vector3.Distance(transform.position, interactTarget.transform.position) < interactRange) {
+                        interacting = true; 
+                        navAgent.path.ClearCorners();
+                        ShowIndicator(indicatorType); 
+                    }
                 }
             }
         }//Update
@@ -45,5 +66,24 @@ namespace Relax.Objects.Characters {
                 animator.SetFloat("MoveZ", navAgent.desiredVelocity.z);
             }
         }//UpdateAnimation
+
+        public void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Using, float timeToComplete = 0f, string indicator = "default") {
+            interactTarget = obj;
+            interactionType = type; 
+            navAgent.SetDestination(obj.transform.position);
+            interacting = false; 
+            interactionTime = 0f; 
+            indicatorType = indicator;
+            timeToInteract = timeToComplete;
+        }//SetInteractionTarget
+
+        protected void ShowIndicator(string type = "default") {
+            indicator.gameObject.SetActive(true);
+            indicatorIcon.sprite = Top.GAME.GetIndicatorSprite(type); 
+        }//ShowIndicator
+
+        protected void HideIndicator() {
+            indicator.gameObject.SetActive(false);
+        }//HideIndicator
     }//Character
 }

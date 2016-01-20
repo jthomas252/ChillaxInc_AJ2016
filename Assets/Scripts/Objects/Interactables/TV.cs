@@ -9,12 +9,11 @@ namespace Relax.Objects.Interactables {
         }
 
         protected override void OnFirstButton() {
-            Debug.Log("My button was pressed");
-            Top.GAME.playerCharacter.SetInteractionTarget(this);
+            Top.GAME.playerCharacter.SetInteractionTarget(this, InteractionType.Using, 2f, "TV");
         }//OnFirstButton
 
         public override void Interact() {
-            Debug.Log("I was interacted with!");
+            Debug.Log("TV interacted with");
         }//Interact
     }//TV
 }

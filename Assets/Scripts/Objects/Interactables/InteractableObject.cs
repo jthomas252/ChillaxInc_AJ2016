@@ -11,6 +11,12 @@ namespace Relax.Objects.Interactables {
             On
         }
 
+        public enum InteractionType {
+            Using,
+            Fixing,
+            FightingFire
+        }
+
         [System.Serializable]
         public struct ObjectStateInfo {
             public ObjectStatus status;
@@ -60,8 +66,8 @@ namespace Relax.Objects.Interactables {
 
         private void OnDrawGizmos() {
             BoxCollider box = GetComponent<BoxCollider>(); 
-            Gizmos.color = new Color(0f,1f,0f,1f); 
-            Gizmos.DrawWireCube(box.transform.position, box.size);
+            Gizmos.color = new Color(0f,1f,0f,0.5f); 
+            Gizmos.DrawCube(box.transform.position, box.size);
         }//OnDrawGizmos
     }//InteractableObject
 }

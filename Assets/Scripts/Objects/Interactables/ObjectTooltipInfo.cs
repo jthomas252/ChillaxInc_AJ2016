@@ -31,7 +31,6 @@ namespace Relax.Objects.Interactables {
         };
 
         public void CallButton(int i) {
-            Debug.Log(i);
             switch (i) {
                 case 0:
                     if (FirstButtonCallback != null) 
