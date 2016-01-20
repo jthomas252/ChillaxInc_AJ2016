@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI; 
 using Relax.Objects.Interactables;
+using Relax.Objects.Scenery;
+using Relax.Objects.Pickups;
 
 namespace Relax.Interface {
     public class ObjectUIController : MonoBehaviour {
@@ -18,6 +21,7 @@ namespace Relax.Interface {
         public Text descriptionText;
         public Text statusText; 
         public Button[] buttons; 
+        public RectTransform storagePanel; 
 
 	    private void Start () {
 	        Hide(); 
@@ -44,7 +48,7 @@ namespace Relax.Interface {
 
             headerText.text = info.name; 
             descriptionText.text = info.description; 
-            statusText.text = info.status;
+            if (info.showStatus) statusText.text = info.status.ToString();
             for (int i = 0; i < buttons.Length; ++i) {
                 if (buttons[i].GetComponentInChildren<Text>() && i < info.buttonNames.Length) {
                     buttons[i].GetComponentInChildren<Text>().text = info.buttonNames[i].name; 
@@ -60,9 +64,7 @@ namespace Relax.Interface {
         }//UnsetObject
 
         public void OnButton(int i) {
-            if (activeInfo != null) {
-                activeInfo.CallButton(i); 
-            }
+            if (activeInfo != null) activeInfo.CallButton(i); 
         }//OnButton
     }//ObjectUIController
 }

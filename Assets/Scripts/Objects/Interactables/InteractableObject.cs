@@ -12,34 +12,15 @@ namespace Relax.Objects.Interactables {
         }
 
         public enum InteractionType {
+            Primary,
+            Secondary,
             Using,
             Fixing,
             FightingFire
         }
 
-        [System.Serializable]
-        public struct ObjectStateInfo {
-            public ObjectStatus status;
-            public string descriptionText;
-
-            public ObjectStateInfo(ObjectStatus s, string desc) {
-                status = s; 
-                descriptionText = desc;
-            }
-        }
-
-        public ObjectStatus startingState = ObjectStatus.Off; 
-        public ObjectStateInfo[] stateInfo = new ObjectStateInfo[4]{
-            new ObjectStateInfo(ObjectStatus.Broken, "broken"),
-            new ObjectStateInfo(ObjectStatus.Off, "off"),
-            new ObjectStateInfo(ObjectStatus.On, "on"),
-            new ObjectStateInfo(ObjectStatus.OnFire, "on fire!")
-        };
-
-        public bool flammable = true; 
-
-        private ObjectTooltipInfo tooltipInfo; 
-        private ObjectiveStatus objectiveStatus; 
+        protected ObjectTooltipInfo tooltipInfo; 
+        protected ObjectiveStatus objectiveStatus; 
 
         protected void Start() {
             if (GetComponent<ObjectTooltipInfo>()) {

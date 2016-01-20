@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
+using Relax.Utility;
+using Relax.Objects.Pickups;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Relax.Objects.Scenery {
     [ExecuteInEditMode]
     public class StorageObject : SceneryObject {
-        public GameObject[] objectsStored; 
+        public int maxObjectsStored = 4; 
+        public List<PickupObject> objectsStored; 
         public GameObject attachedObject; 
         public Vector3 attachPoint; 
 
@@ -16,11 +20,23 @@ namespace Relax.Objects.Scenery {
                 attachedObject.transform.SetParent(transform);
                 attachedObject.transform.localPosition = attachPoint; 
             }
+            objectsStored = new List<PickupObject>(); 
         }//Start
 
-        public virtual void StoreObject(GameObject obj) {
-            Debug.Log("Override me");
+        public virtual void StoreObject(PickupObject obj) {
+            if (objectsStored.Count < maxObjectsStored) {
+                obj.gameObject.SetActive(false);
+                obj.transform.SetParent(transform);
+                objectsStored.Add(obj); 
+            }
         }//StoreObject
+
+        public virtual void TakeObject(PickupObject obj) {
+            if (!Top.GAME.playerCharacter.IsHoldingObject()) {
+                objectsStored.Remove(obj);
+                Top.GAME.playerCharacter.SetHeldObject(obj);
+            }
+        }//TakeObject
 
         public virtual void AttachObject(GameObject obj) {
             obj.transform.SetParent(transform); 
@@ -32,5 +48,17 @@ namespace Relax.Objects.Scenery {
             Gizmos.DrawSphere(transform.position + attachPoint, 0.5f); 
             base.OnDrawGizmos(); 
         }//OnDrawGizmos
+
+        public override void Interact() {
+            base.Interact();
+        }//Interact
+
+        protected override void OnFirstButton() {
+            Top.GAME.playerCharacter.SetInteractionTarget(this, InteractionType.Primary, 1f);
+        }//OnFirstButton
+
+        protected override void OnSecondButton() {
+            Top.GAME.playerCharacter.SetInteractionTarget(this, InteractionType.Secondary, 1f);
+        }//OnSecondButton
     }//StorageObject
 }//Relax

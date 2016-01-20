@@ -16,6 +16,8 @@ namespace Relax.Interface {
         public Color objectiveCompleteColor; 
         public float objectiveImageOffset = 32f;
         public float objectiveSpacing = 48f;
+        public RectTransform purchasePanel; 
+        public Text messageText; 
 
         private struct ObjectiveDisplay {
             public Image image; 
@@ -26,13 +28,28 @@ namespace Relax.Interface {
             }
         }
         private List<ObjectiveDisplay> objectiveDisplayList; 
+        private float currentTime; 
+        private float messageDuration; 
 
         public void Start() {
             if (objectivePanel == null) {
                 throw new MissingComponentException("The objective panel is not set up properly"); 
             }
+            currentTime = 0f; messageDuration = 0f; 
         }//Start
 
+        public void Update() {
+            if (currentTime < messageDuration) {
+                currentTime += Time.deltaTime; 
+                messageText.color = new Color(
+                    messageText.color.r,
+                    messageText.color.g,
+                    messageText.color.b,
+                    1f - (currentTime / messageDuration));
+            }
+        }//Update
+
+        //UI Buttons
         public void OnPauseButton() {
             Top.GAME.Pause(); 
             
@@ -44,6 +61,21 @@ namespace Relax.Interface {
                 }
             }
         }//OnPauseButton
+
+        public void OnBuyButton() {
+            if (purchasePanel != null) {
+                purchasePanel.gameObject.SetActive(true); 
+            }
+        }//OnBuyButton
+
+        public void SetMessageText(string text, Color color, float duration) {
+            if (messageText != null) { 
+                messageText.text = text; 
+                messageText.color = color; 
+                messageDuration = duration;
+                currentTime = 0f; 
+            }
+        }//SetMessageText
 
         public void UpdateObjectivesList(Objective[] objectives) {
             if (objectiveDisplayList == null) {

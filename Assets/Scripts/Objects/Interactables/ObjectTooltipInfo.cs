@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Relax.Objects.Interactables; 
 
 namespace Relax.Objects.Interactables {
     public class ObjectTooltipInfo : MonoBehaviour {
         //Tooltip information
         public string name = "";
         public string description = "";
-        public string status = ""; 
+        public InteractableObject.ObjectStatus status = InteractableObject.ObjectStatus.Off; 
 
         //Object interaction callbacks
         public bool canInteract = true; 
+        public bool showStatus = false; 
+        public bool showStorage = false; 
         public delegate void ObjectUICallback(); 
         public event ObjectUICallback FirstButtonCallback;
         public event ObjectUICallback SecondButtonCallback;

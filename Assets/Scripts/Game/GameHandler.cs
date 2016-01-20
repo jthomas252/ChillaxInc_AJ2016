@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI; 
 using System.Collections;
 using Relax.Objects.Characters; 
 using Relax.Interface; 
+using Relax.Objects.Pickups; 
 
 namespace Relax.Game {
     public class GameHandler : MonoBehaviour {
@@ -19,6 +21,7 @@ namespace Relax.Game {
         }
         public GameObjective[] gameObjectives; 
         private MainGameUIController mainUI;
+        private PickupUIController pickupUI; 
 
         [System.Serializable]
         public struct IndicatorSprite {
@@ -29,6 +32,9 @@ namespace Relax.Game {
             }
         }
         public IndicatorSprite[] indicatorSprites;
+
+        public Transform objectGroup;
+        public Transform characterGroup;
 
         private void Start() {
             if (FindObjectOfType<Robot>()) {
@@ -41,6 +47,12 @@ namespace Relax.Game {
                 mainUI = FindObjectOfType<MainGameUIController>();
             } else {
                 throw new MissingComponentException("No Main UI in scene"); 
+            }
+
+            if (FindObjectOfType<PickupUIController>()) {
+                pickupUI = FindObjectOfType<PickupUIController>();
+            } else {
+                throw new MissingComponentException("No Pickup UI in scene"); 
             }
 
             Objective[] test = new Objective[3]{
@@ -68,6 +80,14 @@ namespace Relax.Game {
                 Time.timeScale = 0; 
             }
         }//Pause
+
+        public void SetPickup(PickupObject pickup) {
+            pickupUI.UpdateObject(pickup); 
+        }//SetPickup
+
+        public void SetMessageText(string text, Color color, float duration) {
+            mainUI.SetMessageText(text, color, duration); 
+        }//SetMessageText
 
         public Sprite GetIndicatorSprite(string type ) {
             Sprite indicator = null; 
