@@ -7,6 +7,7 @@ namespace Relax.Objects.Characters {
     public class Character : MonoBehaviour {
         protected NavMeshAgent navAgent;
         protected Animator animator; 
+        protected AudioSource[] audioSources;
         public float interactRange = 2.5f; 
         public InteractableObject interactTarget; 
 
@@ -33,16 +34,23 @@ namespace Relax.Objects.Characters {
             } else {
                 throw new MissingComponentException("No Animator Component in Children of Character");
             }
+
+            if (GetComponent<AudioSource>()) {
+                audioSources = GetComponents<AudioSource>();
+            } else {
+                throw new MissingComponentException("No AudioSource on Character");
+            }
         }//Start
 
         protected void Update() {
             if (interactTarget != null) {
                 if (interacting) {
                     if (interactionTime > timeToInteract) {
-                        interactTarget.Interact();
+                        interactTarget.Interact(interactionType);
                         interactTarget = null; 
                         interacting = false;
                         HideIndicator(); 
+                        OnInteract();
                     } else {
                         interactionTime += Time.deltaTime; 
                     }
@@ -50,6 +58,7 @@ namespace Relax.Objects.Characters {
                     if (Vector3.Distance(transform.position, interactTarget.transform.position) < interactRange) {
                         interacting = true; 
                         navAgent.path.ClearCorners();
+                        OnStop(); 
                         ShowIndicator(indicatorType); 
                     }
                 }
@@ -85,5 +94,27 @@ namespace Relax.Objects.Characters {
         protected void HideIndicator() {
             indicator.gameObject.SetActive(false);
         }//HideIndicator
+
+        protected void PlaySound(AudioClip clip, int num = 0) {
+            if (num < audioSources.Length) {
+                if (audioSources[num].isPlaying) audioSources[num].Stop();
+                audioSources[num].clip = clip;
+                audioSources[num].Play();
+            }
+        }//PlaySound
+
+        protected void StopSound(int num = 0) {
+            if (num < audioSources.Length) {
+                audioSources[num].Stop(); 
+            }
+        }
+
+        protected virtual void OnInteract() {
+
+        }//OnInteract
+
+        protected virtual void OnStop() {
+
+        }//OnStop
     }//Character
-}
+}//Relax

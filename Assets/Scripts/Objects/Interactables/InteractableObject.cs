@@ -41,7 +41,7 @@ namespace Relax.Objects.Interactables {
             Debug.Log("Base2ndButton");
         }//OnSecondButton
 
-        public virtual void Interact() {
+        public virtual void Interact(InteractionType type = InteractionType.Primary) {
             Debug.Log("BaseInteract"); 
         }//Interact
 

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Relax.Utility; 
 using Relax.Objects.Pickups;
+using Relax.Objects.Interactables;
 
 namespace Relax.Interface {
     public class PickupUIController : MonoBehaviour {
@@ -16,6 +17,7 @@ namespace Relax.Interface {
         public void UpdateObject(PickupObject pickup) {
             transform.localScale = new Vector3(1f,1f);
             if (pickup.GetComponentInChildren<SpriteRenderer>()) {
+                text.text = pickup.GetComponent<ObjectTooltipInfo>().name;
                 image.sprite = pickup.GetComponentInChildren<SpriteRenderer>().sprite; 
             }
         }//UpdateObject

@@ -3,38 +3,62 @@ using Relax.Utility;
 using Relax.Objects.Pickups;
 using System.Collections;
 using System.Collections.Generic;
+using Relax.Interface;
+using Relax.Objects.Interactables;
 
 namespace Relax.Objects.Scenery {
     [ExecuteInEditMode]
     public class StorageObject : SceneryObject {
-        public int maxObjectsStored = 4; 
+        private int maxObjectsStored = 4; 
         public List<PickupObject> objectsStored; 
         public GameObject attachedObject; 
         public Vector3 attachPoint; 
 
         public bool canStoreObjects; 
         public bool canPlaceObjects;
+        private PickupObject pickedObject; 
 
         protected void Start() {
+            base.Start();
             if (attachedObject != null) {
                 attachedObject.transform.SetParent(transform);
                 attachedObject.transform.localPosition = attachPoint; 
             }
-            objectsStored = new List<PickupObject>(); 
+            tooltipInfo.StorageButtonCallback += OnStorageButton; 
+            HideStoredObjects(); 
         }//Start
 
+        private void HideStoredObjects() {
+            if (objectsStored != null) {
+                //This is a bad solution, but because I need the objects active 
+                //I'm keeping it like this. 
+                for (int i = 0; i < objectsStored.Count; ++i) {
+                    objectsStored[i].transform.localScale = new Vector3(0f,0f,0f);
+                }
+            }
+        }//HideStoredObjects
+
         public virtual void StoreObject(PickupObject obj) {
+            if (objectsStored == null) {
+                objectsStored = new List<PickupObject>(); 
+            }
+
             if (objectsStored.Count < maxObjectsStored) {
-                obj.gameObject.SetActive(false);
                 obj.transform.SetParent(transform);
                 objectsStored.Add(obj); 
+                HideStoredObjects();
+            } else {
+                Top.GAME.SetMessageText("The box is too full! Take some items out!", Color.red, 3.5f);
             }
         }//StoreObject
 
         public virtual void TakeObject(PickupObject obj) {
             if (!Top.GAME.playerCharacter.IsHoldingObject()) {
+                obj.transform.localScale = new Vector3(1f, 1f, 1f);
                 objectsStored.Remove(obj);
                 Top.GAME.playerCharacter.SetHeldObject(obj);
+            } else {
+                Top.GAME.SetMessageText("You can't take an object while you're holding one!", Color.red, 3.5f);
             }
         }//TakeObject
 
@@ -49,8 +73,31 @@ namespace Relax.Objects.Scenery {
             base.OnDrawGizmos(); 
         }//OnDrawGizmos
 
-        public override void Interact() {
-            base.Interact();
+        public override void Interact(InteractionType type = InteractionType.Primary) {
+            switch (type) {
+                case InteractionType.Primary:
+                    PickupObject obj = Top.GAME.playerCharacter.GetHeldObject();
+                    if (obj != null) {
+                        Top.GAME.playerCharacter.DropHeldObject();
+                        StoreObject(obj);
+                        FindObjectOfType<ObjectUIController>().UnsetObject();
+                    } else {
+                        Top.GAME.SetMessageText("The robot isn't holding an object.", Color.red, 3.5f); 
+                    }
+                    break;
+
+                case InteractionType.Secondary:
+                    if (pickedObject != null) {
+                        TakeObject(pickedObject);
+                    } else {
+                        Top.GAME.SetMessageText("You haven't selected an object!", Color.red, 3.5f); 
+                    }
+                    break;
+
+                default:
+                    Debug.Log("Something went wrong!");
+                    break;
+            }
         }//Interact
 
         protected override void OnFirstButton() {
@@ -60,5 +107,13 @@ namespace Relax.Objects.Scenery {
         protected override void OnSecondButton() {
             Top.GAME.playerCharacter.SetInteractionTarget(this, InteractionType.Secondary, 1f);
         }//OnSecondButton
+
+        protected virtual void OnStorageButton(int i = 0) {
+            if (i < objectsStored.Count) {
+                pickedObject = objectsStored[i]; 
+            } else {
+                pickedObject = null;
+            }
+        }//OnStorageButton
     }//StorageObject
 }//Relax

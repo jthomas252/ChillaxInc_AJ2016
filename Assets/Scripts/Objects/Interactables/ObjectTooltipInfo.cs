@@ -14,8 +14,10 @@ namespace Relax.Objects.Interactables {
         public bool showStatus = false; 
         public bool showStorage = false; 
         public delegate void ObjectUICallback(); 
+        public delegate void ObjectUISelectionCallback(int i = 0);
         public event ObjectUICallback FirstButtonCallback;
         public event ObjectUICallback SecondButtonCallback;
+        public event ObjectUISelectionCallback StorageButtonCallback; 
 
         //Button names
         [System.Serializable]
@@ -44,6 +46,15 @@ namespace Relax.Objects.Interactables {
                     if (SecondButtonCallback != null) 
                         SecondButtonCallback();
                     break;
+
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    if (StorageButtonCallback != null) {
+                        StorageButtonCallback(i - 2); 
+                    }
+                    break; 
             }
         }//CallButton
     }//ObjectTooltipInfo

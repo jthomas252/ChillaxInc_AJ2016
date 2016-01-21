@@ -48,7 +48,7 @@ namespace Relax.Utility {
                 if (Physics.Raycast(ray, out rayHit) && rayHit.transform.gameObject.GetComponent<ObjectTooltipInfo>()) {
                     hitObject = true;
                     ObjectTooltipInfo info = rayHit.transform.gameObject.GetComponent<ObjectTooltipInfo>();
-                    if (Input.GetMouseButtonDown(0)) {
+                    if (Input.GetMouseButtonDown(0) && info.canInteract) {
                         objectUI.SetObject(info);
                     } else if (objectUI.targetObject != rayHit.transform.gameObject) {
                         tooltipUI.SetObject(info);
