@@ -16,7 +16,8 @@ namespace Relax.Interface {
         public Color objectiveCompleteColor; 
         public float objectiveImageOffset = 32f;
         public float objectiveSpacing = 48f;
-        public RectTransform purchasePanel; 
+        public RectTransform purchasePanel;
+        public RectTransform restartConfirmPanel; 
         public Text messageText; 
 
         private struct ObjectiveDisplay {
@@ -77,7 +78,7 @@ namespace Relax.Interface {
             }
         }//SetMessageText
 
-        public void UpdateObjectivesList(Objective[] objectives) {
+        public void UpdateObjectivesList(ObjectiveStatus[] objectives) {
             if (objectiveDisplayList == null) {
                 objectiveDisplayList = new List<ObjectiveDisplay>();
             } 
@@ -132,5 +133,18 @@ namespace Relax.Interface {
                 objectiveDisplayList[i].text.gameObject.SetActive(false);
             }
         }//UpdateObjectivesList
+
+        public void OnRestartButton() {
+            if (restartConfirmPanel != null) restartConfirmPanel.gameObject.SetActive(true);
+        }//OnRestartButton
+
+        public void OnRestartCancel() {
+            if (restartConfirmPanel != null) restartConfirmPanel.gameObject.SetActive(false);
+        }//OnRestartCancel
+
+        public void OnRestartConfirm() {
+            OnPauseButton();
+            Application.LoadLevel(Application.loadedLevel);
+        }//OnRestartConfirm
     }//MainGameUIController
-}
+}//Relax

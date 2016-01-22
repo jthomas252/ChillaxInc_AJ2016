@@ -1,25 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Relax.Utility; 
-using Relax.Objects.Interactables; 
+using Relax.Utility;
+using Relax.Objects.Interactables;
 
 namespace Relax.Objects.Pickups {
     public class PickupObject : InteractableObject {
+        public enum PickupFunction {
+            Repair,
+            LightBulb,
+            FoodCart,
+            FightFire,
+            BatteryLive,
+            BatteryDead
+        }
+        public PickupFunction function; 
+
+        public Sprite holdingSprite;
+
         public void TakeObject(Transform _transform) {
             if (!Top.GAME.playerCharacter.IsHoldingObject()) {
                 transform.SetParent(_transform);
-                transform.localScale = new Vector3(0f,0f,0f);
+                transform.localScale = new Vector3(0f, 0f, 0f);
             } else {
-                Top.GAME.SetMessageText("You can't carry multiple objects! Drop your held object.", Color.red, 3.5f); 
+                Top.GAME.SetMessageText("You can't carry multiple objects! Drop your held object.", Color.red, 3.5f);
             }
         }//PickupObject
 
         public void DropObject(Vector3 pos) {
             transform.localScale = new Vector3(1f, 1f, 1f);
-            transform.SetParent(Top.GAME.objectGroup); 
-            transform.position = pos; 
+            transform.SetParent(Top.GAME.objectGroup);
+            transform.position = pos;
             Top.GAME.HidePickupUI();
         }//DropObject
+
+        public void Consume() {
+
+        }//Consume
 
         private void OnDrawGizmos() {
             BoxCollider box = GetComponent<BoxCollider>();

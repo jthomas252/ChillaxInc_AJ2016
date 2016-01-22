@@ -1,52 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Relax.Objects.Pickups;
-using Relax.Objects.Interactables; 
-using Relax.Utility; 
-using Relax.Interface; 
+using Relax.Objects.Interactables;
+using Relax.Utility;
+using Relax.Interface;
 
 namespace Relax.Objects.Characters {
     public class Robot : Character {
-        public MoveIndicator moveIndicator; 
-        public PickupObject pickup; 
+        public MoveIndicator moveIndicator;
+        public PickupObject pickup;
 
-        protected void Start() {
-            base.Start(); 
+        protected new void Start() {
+            if (GetComponent<Flammable>()) GetComponent<Flammable>().OnIgnite += OnIgnite;
         }//Start
 
-        protected void Update() {
+        protected new void Update() {
             if (Input.GetMouseButtonDown(1)) {
                 RaycastHit rayHit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out rayHit)) {
+                int layerMask = 1 << LayerMask.NameToLayer("GEOMETRY");
+                if (Physics.Raycast(ray, out rayHit, 200f, layerMask)) {
                     navAgent.SetDestination(rayHit.point);
                     UpdateMoveIndicator(rayHit.point);
                     PlaySound(Top.GAME.GetRandomSound("robotMove"));
-                    PlaySound(Top.GAME.GetRandomSound("robotMoveLoop"), 1); 
+                    PlaySound(Top.GAME.GetRandomSound("robotMoveLoop"), 1);
                 }
             }
 
-            if (moveIndicator != null) moveIndicator.OnTargetReached += OnTargetReached; 
+            if (moveIndicator != null) moveIndicator.OnTargetReached += OnTargetReached;
             base.UpdateAnimation();
-            base.Update(); 
+            base.Update();
         }//Update
 
         private void OnTargetReached() {
-            OnStop(); 
+            OnStop();
         }//OnTargetReached
 
         private void UpdateMoveIndicator(Vector3 newPos) {
             if (moveIndicator != null) {
                 moveIndicator.gameObject.SetActive(true);
-                moveIndicator.transform.position = new Vector3(newPos.x, 1f, newPos.z); 
+                moveIndicator.transform.position = new Vector3(newPos.x, 1f, newPos.z);
             }
         }//UpdateMoveIndicator
 
-        public void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Using, float timeToComplete = 0f, string indicator = "default") {
-            UpdateMoveIndicator(obj.transform.position); 
-            base.SetInteractionTarget(obj, type, timeToComplete, indicator);
+        public new void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Primary, float timeToComplete = 0f) {
+            UpdateMoveIndicator(obj.transform.position);
+            base.SetInteractionTarget(obj, type, timeToComplete);
             PlaySound(Top.GAME.GetRandomSound("robotMove"));
-            PlaySound(Top.GAME.GetRandomSound("robotMoveLoop"), 1); 
+            PlaySound(Top.GAME.GetRandomSound("robotMoveLoop"), 1);
         }//SetInteractionTarget
 
         public void SetHeldObject(PickupObject _pickup) {
@@ -62,20 +63,25 @@ namespace Relax.Objects.Characters {
 
         public void DropHeldObject() {
             pickup.DropObject(transform.position);
+            PlaySound(Top.GAME.GetRandomSound("robotDrop"));
             pickup = null;
         }//DropHeldObject
 
         public PickupObject GetHeldObject() {
-            return pickup; 
+            return pickup;
         }//GetHeldObject
 
         public bool IsHoldingObject() {
             if (pickup == null) {
                 return false;
             } else {
-                return true; 
+                return true;
             }
         }//IsHoldingObject
+
+        public void OnIgnite() {
+            indicator.ShowIcon("sadRobot");
+        }//OnIgnite
 
         protected override void OnStop() {
             PlaySound(Top.GAME.GetRandomSound("robotMoveStop"), 2);
@@ -83,7 +89,11 @@ namespace Relax.Objects.Characters {
         }//OnStop
 
         protected override void OnInteract() {
-            PlaySound(Top.GAME.GetRandomSound("robotUse"));
+            PlaySound(Top.GAME.GetRandomSound("robotGrab"));
         }//OnInteract
+
+        private void OnDestroy() {
+            if (GetComponent<Flammable>()) GetComponent<Flammable>().OnIgnite -= OnIgnite;
+        }//OnDestroy
     }//Robot
-}
+}//Relax

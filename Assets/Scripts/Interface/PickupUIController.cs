@@ -17,8 +17,12 @@ namespace Relax.Interface {
         public void UpdateObject(PickupObject pickup) {
             transform.localScale = new Vector3(1f,1f);
             if (pickup.GetComponentInChildren<SpriteRenderer>()) {
-                text.text = pickup.GetComponent<ObjectTooltipInfo>().name;
-                image.sprite = pickup.GetComponentInChildren<SpriteRenderer>().sprite; 
+                text.text = pickup.GetComponent<ObjectTooltipInfo>().objectName;
+                if (pickup.holdingSprite != null) {
+                    image.sprite = pickup.holdingSprite;
+                } else {
+                    image.sprite = pickup.GetComponentInChildren<SpriteRenderer>().sprite;
+                }
             }
         }//UpdateObject
 

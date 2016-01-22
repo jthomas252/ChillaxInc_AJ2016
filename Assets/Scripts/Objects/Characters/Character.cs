@@ -1,32 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Relax.Utility; 
+using Relax.Utility;
 using Relax.Objects.Interactables;
 
 namespace Relax.Objects.Characters {
     public class Character : MonoBehaviour {
         protected NavMeshAgent navAgent;
-        protected Animator animator; 
+        protected Animator animator;
         protected AudioSource[] audioSources;
-        public float interactRange = 2.5f; 
-        public InteractableObject interactTarget; 
+        public float interactRange = 2.5f;
+        public InteractableObject interactTarget;
 
-        //Display indicator -- Probably move to a seperate class? 
-        public SpriteRenderer indicator; 
-        public SpriteRenderer indicatorIcon; 
+        public Indicator indicator;
 
-        private bool interacting; 
+        private bool interacting;
         private float interactionTime;
         private float timeToInteract;
-        private InteractableObject.InteractionType interactionType; 
-        private string indicatorType;
+        private InteractableObject.InteractionType interactionType;
 
-        protected void Start() {
+        protected void Awake() {
+            Debug.Log(name);
             if (GetComponent<NavMeshAgent>()) {
                 navAgent = GetComponent<NavMeshAgent>();
-                navAgent.updateRotation = false; 
+                navAgent.updateRotation = false;
             } else {
-                throw new MissingComponentException("No NavMesh Component on Character"); 
+                throw new MissingComponentException("No NavMesh Component on Character");
             }
 
             if (GetComponentInChildren<Animator>()) {
@@ -40,26 +38,30 @@ namespace Relax.Objects.Characters {
             } else {
                 throw new MissingComponentException("No AudioSource on Character");
             }
-        }//Start
+        }//Awake
 
         protected void Update() {
             if (interactTarget != null) {
                 if (interacting) {
                     if (interactionTime > timeToInteract) {
                         interactTarget.Interact(interactionType);
-                        interactTarget = null; 
+                        interactTarget = null;
                         interacting = false;
-                        HideIndicator(); 
+                        indicator.Hide();
                         OnInteract();
                     } else {
-                        interactionTime += Time.deltaTime; 
+                        interactionTime += Time.deltaTime;
                     }
                 } else {
                     if (Vector3.Distance(transform.position, interactTarget.transform.position) < interactRange) {
-                        interacting = true; 
-                        navAgent.path.ClearCorners();
-                        OnStop(); 
-                        ShowIndicator(indicatorType); 
+                        if (interactTarget.CanInteract()) {
+                            interacting = true;
+                            navAgent.path.ClearCorners();
+                            OnStop();
+                            indicator.ShowIcon();
+                        } else {
+                            CancelInteract();
+                        }
                     }
                 }
             }
@@ -76,24 +78,14 @@ namespace Relax.Objects.Characters {
             }
         }//UpdateAnimation
 
-        public void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Using, float timeToComplete = 0f, string indicator = "default") {
+        public void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Primary, float timeToComplete = 0f) {
             interactTarget = obj;
-            interactionType = type; 
+            interactionType = type;
             navAgent.SetDestination(obj.transform.position);
-            interacting = false; 
-            interactionTime = 0f; 
-            indicatorType = indicator;
+            interacting = false;
+            interactionTime = 0f;
             timeToInteract = timeToComplete;
         }//SetInteractionTarget
-
-        protected void ShowIndicator(string type = "default") {
-            indicator.gameObject.SetActive(true);
-            indicatorIcon.sprite = Top.GAME.GetIndicatorSprite(type); 
-        }//ShowIndicator
-
-        protected void HideIndicator() {
-            indicator.gameObject.SetActive(false);
-        }//HideIndicator
 
         protected void PlaySound(AudioClip clip, int num = 0) {
             if (num < audioSources.Length) {
@@ -105,7 +97,7 @@ namespace Relax.Objects.Characters {
 
         protected void StopSound(int num = 0) {
             if (num < audioSources.Length) {
-                audioSources[num].Stop(); 
+                audioSources[num].Stop();
             }
         }
 
@@ -116,5 +108,12 @@ namespace Relax.Objects.Characters {
         protected virtual void OnStop() {
 
         }//OnStop
+
+        protected virtual void CancelInteract() {
+            interactTarget = null;
+            interacting = false;
+            navAgent.path.ClearCorners();
+            OnStop();
+        }//CancelInteract
     }//Character
 }//Relax

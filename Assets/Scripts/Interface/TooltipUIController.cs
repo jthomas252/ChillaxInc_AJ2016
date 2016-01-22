@@ -33,7 +33,7 @@ namespace Relax.Interface {
             activeTime = 0f;
             _targetObject = info.transform.gameObject; 
 
-            headerText.text = info.name; 
+            headerText.text = info.objectName;
         }//Show
 
         private void Show() {
