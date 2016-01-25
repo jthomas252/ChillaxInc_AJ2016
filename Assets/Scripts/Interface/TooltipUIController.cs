@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI; 
 using Relax.Objects.Interactables;
+using Relax.Utility;
 
 namespace Relax.Interface {
     public class TooltipUIController : MonoBehaviour {
@@ -29,7 +30,12 @@ namespace Relax.Interface {
         }//Start
 
         public void SetObject(ObjectTooltipInfo info) {
-            Show(); 
+            if (transform.localScale.x == 0f) {
+                Show();
+            }
+
+            if (info.gameObject != _targetObject) Top.GAME.PlayGlobalSound(Top.GAME.GetRandomSound("ui_hover"));
+
             activeTime = 0f;
             _targetObject = info.transform.gameObject; 
 
@@ -56,5 +62,15 @@ namespace Relax.Interface {
                 Hide(); 
             }
         }//Update
+
+        public void OnClicked() {
+            if (_targetObject != null && 
+                _targetObject.GetComponent<ObjectTooltipInfo>() && 
+                _targetObject.GetComponent<ObjectTooltipInfo>().canInteract) {
+                if (FindObjectOfType<ObjectUIController>()) 
+                    FindObjectOfType<ObjectUIController>().SetObject(_targetObject.GetComponent<ObjectTooltipInfo>());
+                    Top.GAME.PlayGlobalSound(Top.GAME.GetRandomSound("ui_click"));
+            }
+        }//OnClick
     }//TooltipUIController
 }

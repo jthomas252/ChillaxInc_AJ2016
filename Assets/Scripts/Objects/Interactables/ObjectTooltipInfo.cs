@@ -7,7 +7,15 @@ namespace Relax.Objects.Interactables {
         //Tooltip information
         public string objectName = "";
         public string description = "";
-        public InteractableObject.ObjectStatus status = InteractableObject.ObjectStatus.Off;
+        public InteractableObject.ObjectStatus status {
+            get {
+                if (GetComponent<InteractableObject>()) {
+                    return GetComponent<InteractableObject>().status;
+                } else {
+                    return InteractableObject.ObjectStatus.Off; 
+                }
+            }
+        }
 
         //Object interaction callbacks
         public bool canInteract = true;

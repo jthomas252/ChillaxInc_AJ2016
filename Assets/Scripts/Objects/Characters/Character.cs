@@ -13,13 +13,12 @@ namespace Relax.Objects.Characters {
 
         public Indicator indicator;
 
-        private bool interacting;
+        protected bool interacting;
         private float interactionTime;
         private float timeToInteract;
         private InteractableObject.InteractionType interactionType;
 
         protected void Awake() {
-            Debug.Log(name);
             if (GetComponent<NavMeshAgent>()) {
                 navAgent = GetComponent<NavMeshAgent>();
                 navAgent.updateRotation = false;

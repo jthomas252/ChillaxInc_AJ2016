@@ -9,9 +9,9 @@ namespace Relax.Objects.Interactables {
         public event Top.GenericEvent OnContained;
         public PickupObject interactObject;
 
-        private new void Start() {
-            base.Start();
-        }
+        private new void Awake() {
+            base.Awake();
+        }//Awake
 
         protected override void OnFirstButton() {
             Top.GAME.playerCharacter.SetInteractionTarget(this, InteractionType.Primary, 1f);
@@ -29,9 +29,13 @@ namespace Relax.Objects.Interactables {
         }//Interact
 
         public override void Interact(InteractableObject.InteractionType type = InteractionType.Primary) {
-            if (OnContained != null) OnContained();
             FindObjectOfType<ObjectUIController>().UnsetObject();
-            Destroy(this.gameObject);
+            Contain();
         }//Interact
-    }//TV
+
+        public void Contain() {
+            if (OnContained != null) OnContained();
+            Destroy(this.gameObject);
+        }//Contain
+    }//Fire
 }//Relax

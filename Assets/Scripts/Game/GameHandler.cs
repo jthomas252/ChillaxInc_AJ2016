@@ -8,6 +8,7 @@ using Relax.Objects.Pickups;
 using Relax.Objects.Interactables;
 using Relax.Objects.Waypoints;
 using Relax.Objects.Scenery;
+using Relax.Utility;
 
 namespace Relax.Game {
     public class GameHandler : MonoBehaviour {
@@ -26,6 +27,7 @@ namespace Relax.Game {
         public struct DayInfo {
             public int timeToArrival; 
             public ObjectiveStatus[] objectives;
+            public ObjectSpawner[] spawners; 
             public HumanWalkPath path; 
         }
         public DayInfo[] dayObjectives; 
@@ -114,7 +116,7 @@ namespace Relax.Game {
 
             for (int i = 0; i < dayObjectives[currentDay].objectives.Length; ++i) {
                 if (dayObjectives[currentDay].objectives[i] != null) {
-                    dayObjectives[currentDay].objectives[i].ObjectiveChangeCallback += OnObjectiveChanged;
+                    dayObjectives[currentDay].objectives[i].ObjectiveChange += OnObjectiveChanged;
                 }
             }
 
@@ -138,32 +140,54 @@ namespace Relax.Game {
             humanUI.UpdateValues((int)(timeToSpawn - currentTime), _humanCharacter.anger, _humanCharacter.satisfaction);
 
             if (Input.GetKeyDown(KeyCode.F)) {
-                if (Time.timeScale != 0) Time.timeScale = 3;
+                if (Time.timeScale != 0) {
+                    if (Input.GetKey(KeyCode.LeftShift)) {
+                        Time.timeScale = 30;
+                    } else {
+                        Time.timeScale = 3;
+                    }
+                }
             } else if (Input.GetKeyUp(KeyCode.F)) {
                 if (Time.timeScale != 0) Time.timeScale = 1;
             }
         }//Update
 
         private void OnDayStart() {
-            ObjectSpawner[] spawnPoints = FindObjectsOfType<ObjectSpawner>();
-            StorageObject[] storageObjects = FindObjectsOfType<StorageObject>();
+            if (currentDay >= dayObjectives.Length) {
+                Ending();
+            } else {
+                _playerCharacter.Reset();
+                mainUI.FadeIn("Day " + (currentDay + 1) + " start!");
+                StorageObject[] storageObjects = FindObjectsOfType<StorageObject>();
 
-            for (int i = 0; i < spawnPoints.Length; ++i) {
-                spawnPoints[i].Spawn();
+                for (int i = 0; i < storageObjects.Length; ++i) {
+                    storageObjects[i].RestockObjects();
+                }
+
+                for (int i = 0; i < dayObjectives[currentDay].spawners.Length; ++i) {
+                    dayObjectives[currentDay].spawners[i].Spawn();
+                }
+
+                for (int i = 0; i < dayObjectives[currentDay].objectives.Length; ++i) {
+                    dayObjectives[currentDay].objectives[i].Setup();
+                    dayObjectives[currentDay].objectives[i].MarkIncomplete();
+                }
+
+                currentTime = 0f;
+                timeToSpawn = dayObjectives[currentDay].timeToArrival;
+                humanUI.UpdateValues((int)(timeToSpawn - currentTime));
             }
-
-            for (int i = 0; i < storageObjects.Length; ++i) {
-                storageObjects[i].RestockObjects();
-            }
-
-            currentTime = 0f;
-            timeToSpawn = dayObjectives[currentDay].timeToArrival; 
-            humanUI.UpdateValues((int)(timeToSpawn - currentTime));
         }//OnDayStart
 
         private void OnDayEnd() {
             _humanCharacter.gameObject.SetActive(false);
+            mainUI.FadeOut("Day " + (currentDay + 1) + " complete!"); 
         }//OnDayEnd
+
+        public void OnNextDay() {
+            ++currentDay;
+            OnDayStart(); 
+        }//OnNextDay
 
         public AudioClip GetRandomSound(string key) {
             if (soundDictionary.ContainsKey(key)) {
@@ -174,6 +198,25 @@ namespace Relax.Game {
                 return null;
             }
         }//GetRandomSound
+
+        private void Ending() {
+            Application.LoadLevel("EndScene");
+        }//Ending
+
+        public void TriggerDayEnd() {
+            OnDayEnd(); 
+        }//TriggerDayEnd
+
+        public void TriggerGameOver() {
+            mainUI.ShowGameOver(); 
+            Pause(); 
+        }//TriggerGameOver
+
+        public void ScreenShake(int shakes = 30) {
+            if (FindObjectOfType<ScreenShake>()) {
+                FindObjectOfType<ScreenShake>().Shake(shakes);
+            }
+        }//ScreenShake
 
         public AudioClip GetSound(string key, int index = 0) {
             if (soundDictionary != null && soundDictionary.ContainsKey(key) && index < soundDictionary[key].Length) {
@@ -249,5 +292,15 @@ namespace Relax.Game {
                 return null;
             }
         }//GetIndicatorSprite
+
+        private void OnDestroy() {
+            for (int i = 0; i < dayObjectives.Length; ++i) {
+                for (int j = 0; j < dayObjectives[i].objectives.Length; ++j) {
+                    if (dayObjectives[i].objectives[j] != null) {
+                        dayObjectives[i].objectives[j].ObjectiveChange -= OnObjectiveChanged;
+                    }
+                }
+            }
+        }//OnDestroy
     }//GameHandler
 }//Relax

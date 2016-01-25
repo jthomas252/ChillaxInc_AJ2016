@@ -10,6 +10,8 @@ namespace Relax.Interface {
         public Text timeText; 
 
         private int seconds = 0;
+        private float lastAnger = 0f;
+        private float lastSatisfy = 0f;
 
         public void UpdateValues(int _seconds, float anger = 0f, float satisfaction = 0f) {
             if (seconds != _seconds) {
@@ -17,8 +19,11 @@ namespace Relax.Interface {
                 FormatTime();
             }
 
-            if (angerMeter) angerMeter.SetPosition(anger);
-            if (satisactionMeter) satisactionMeter.SetPosition(satisfaction);
+            if (angerMeter && anger != lastAnger) angerMeter.SetPosition(anger);
+            if (satisactionMeter && satisfaction != lastSatisfy) satisactionMeter.SetPosition(satisfaction);
+
+            lastAnger = anger;
+            lastSatisfy = satisfaction;
         }//UpdateValues
 
         private void FormatTime() {

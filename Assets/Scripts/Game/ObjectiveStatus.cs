@@ -1,36 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Relax.Utility;
 
 namespace Relax.Game {
     public class ObjectiveStatus : MonoBehaviour {
-        public delegate void ObjectiveUpdatedCallback(); 
-        public event ObjectiveUpdatedCallback ObjectiveChangeCallback; 
-        public delegate float ObjectiveInspectionCallback(); 
-        public event ObjectiveInspectionCallback ObjectiveInspected; 
-        
+        public delegate void ObjectiveUpdatedCallback();
+        public event ObjectiveUpdatedCallback ObjectiveChange;
+        public event ObjectiveUpdatedCallback ObjectiveSetup;
+
+        public float ObjectiveCompleteAmount = 0.1f;
+        public float ObjectiveIncompleteAmount = 0.35f;
+
+        private string originalDescription; 
         public string description;
         public bool complete;
 
+        private void Awake() {
+            originalDescription = description; 
+        }//Awake
+
+        public void Setup() {
+            if (ObjectiveSetup != null) ObjectiveSetup();
+        }//Setup
+
         public void MarkComplete() {
-            complete = true; 
-            if (ObjectiveChangeCallback != null) ObjectiveChangeCallback(); 
+            complete = true;
+            if (ObjectiveChange != null) ObjectiveChange();
         }//MarkComplete
 
         public void MarkIncomplete() {
             complete = false;
-            if (ObjectiveChangeCallback != null) ObjectiveChangeCallback(); 
+            description = originalDescription; 
+            if (ObjectiveChange != null) ObjectiveChange();
         }//MarkIncomplete
 
-        public void ChangeDescription() {
-            complete = true;
-            if (ObjectiveChangeCallback != null) ObjectiveChangeCallback(); 
+        public void ChangeDescription(string newText) {
+            description = newText;
+            if (ObjectiveChange != null) ObjectiveChange();
         }//ChangeDescription
 
-        public float InspectObject() {
-            if (ObjectiveInspected != null) {
-                return ObjectiveInspected();
+        public void InspectObject() {
+            if (complete) {
+                Top.GAME.humanCharacter.IncreaseSatisfaction(ObjectiveCompleteAmount, true);
             } else {
-                return 0f; 
+                Top.GAME.humanCharacter.IncreaseAnger(ObjectiveIncompleteAmount, true);
             }
         }//InspectObject
     }//ObjectiveStatus

@@ -19,8 +19,7 @@ namespace Relax.Objects.Scenery {
 
         public PickupObject[] baseStock; 
 
-        protected new void Start() {
-            base.Start();
+        protected void Start() {
             if (attachedObject != null) {
                 attachedObject.transform.SetParent(transform);
                 attachedObject.transform.localPosition = attachPoint;
@@ -41,10 +40,9 @@ namespace Relax.Objects.Scenery {
         public void RestockObjects() {
             if (objectsStored != null) {
                 for (int i = 0; i < objectsStored.Count; ++i) {
-                    GameObject obj = objectsStored[i].gameObject;
-                    objectsStored.Remove(objectsStored[i]);
-                    GameObject.Destroy(obj);
+                    GameObject.Destroy(objectsStored[i].gameObject);
                 }
+                objectsStored.Clear(); 
             } 
 
             for (int i = 0; i < baseStock.Length; ++i) {
@@ -98,7 +96,6 @@ namespace Relax.Objects.Scenery {
                     if (obj != null) {
                         Top.GAME.playerCharacter.DropHeldObject();
                         StoreObject(obj);
-                        FindObjectOfType<ObjectUIController>().UnsetObject();
                     } else {
                         Top.GAME.SetMessageText("The robot isn't holding an object.", Color.red, 3.5f);
                     }

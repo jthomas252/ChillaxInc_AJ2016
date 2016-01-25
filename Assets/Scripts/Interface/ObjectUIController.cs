@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Relax.Objects.Interactables;
 using Relax.Objects.Scenery;
 using Relax.Objects.Pickups;
+using Relax.Utility;
 
 namespace Relax.Interface {
     public class ObjectUIController : MonoBehaviour {
@@ -88,6 +89,8 @@ namespace Relax.Interface {
 
         public void OnButton(int i) {
             if (activeInfo != null) activeInfo.CallButton(i);
+            Top.GAME.PlayGlobalSound(Top.GAME.GetRandomSound("ui_click"));
+            if (i < 2) UnsetObject();
         }//OnButton
 
         public void MarkStorageButtonActive(Image image) {
@@ -107,4 +110,4 @@ namespace Relax.Interface {
             }
         }//RevertStorageIcons
     }//ObjectUIController
-}
+}//Relax

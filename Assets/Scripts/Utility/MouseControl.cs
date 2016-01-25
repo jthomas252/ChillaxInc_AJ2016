@@ -51,6 +51,7 @@ namespace Relax.Utility {
                     ObjectTooltipInfo info = rayHit.transform.gameObject.GetComponent<ObjectTooltipInfo>();
                     if (Input.GetMouseButtonDown(0) && info.canInteract) {
                         objectUI.SetObject(info);
+                        Top.GAME.PlayGlobalSound(Top.GAME.GetRandomSound("ui_click"));
                     } else if (objectUI.targetObject != rayHit.transform.gameObject && info.showTooltip) {
                         tooltipUI.SetObject(info);
                     }

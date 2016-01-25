@@ -20,6 +20,23 @@ namespace Relax.Objects.Waypoints {
             }
         }//GetCurrentNodePoint
 
+        public bool HasNextNode() {
+            if (_nodes.Length > (currentNode + 1)) {
+                return true;
+            } else {
+                return false;
+            }
+        }//HasNextNode
+
+        public Vector3 GetNextNode() {
+            ++currentNode;
+            return GetCurrentNodePoint();
+        }//GetNextNode
+
+        public ObjectiveStatus[] GetObjectives() {
+            return _nodes[currentNode].objects;
+        }//GetObjectiveObjects
+
         private void OnDrawGizmos() {
             WalkPathNode[] pathNodes = GetComponentsInChildren<WalkPathNode>(); 
 

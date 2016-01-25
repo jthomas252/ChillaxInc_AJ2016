@@ -2,6 +2,7 @@
 using System.Collections;
 using Relax.Game;
 using Relax.Utility;
+using Relax.Interface;
 
 namespace Relax.Objects.Interactables {
     public class InteractableObject : MonoBehaviour {
@@ -16,11 +17,11 @@ namespace Relax.Objects.Interactables {
             Secondary
         }
 
+        public ObjectStatus status; 
         protected ObjectTooltipInfo tooltipInfo;
-        protected ObjectiveStatus objectiveStatus;
         public Indicator indicator;
 
-        protected void Start() {
+        protected void Awake() {
             if (GetComponent<ObjectTooltipInfo>()) {
                 tooltipInfo = GetComponent<ObjectTooltipInfo>();
             } else {
@@ -44,7 +45,6 @@ namespace Relax.Objects.Interactables {
         }//OnSecondButton
 
         public virtual void Interact(InteractionType type = InteractionType.Primary) {
-            Debug.Log("BaseInteract");
         }//Interact
 
         public virtual bool CanInteract(InteractionType type = InteractionType.Primary) {

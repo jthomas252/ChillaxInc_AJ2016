@@ -17,7 +17,6 @@ namespace Relax.Objects.Waypoints {
         private void OnDrawGizmos() {
             Gizmos.color = new Color(0.6f,0.6f,1f,0.33f);
             Gizmos.DrawSphere(point, 0.5f);
-            Gizmos.DrawWireSphere(point, checkRadius); 
 
             Gizmos.color = new Color(1f,1f,1f,1f);
             if (objects != null) {

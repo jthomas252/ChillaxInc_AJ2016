@@ -4,25 +4,34 @@ using System.Collections;
 namespace Relax.Interface {
     public class UIMeter : MonoBehaviour {
         public RectTransform handlePivot;
-        
-        public float minPos = 100f; 
-        public float maxPos = -100f; 
-        public float updateTime = 0.2f; 
 
-        private float currentTime = 0f; 
+        public float minPos = 100f;
+        public float maxPos = -100f;
+        public float catchTime = 0.1f;
         private float lastPosition;
-        private float nextPosition;
-
-        public void Start() {
-            SetPosition(0.33f);
-        }
+        private float nextPosition; 
+        private float meterAngle;
+        private float currentTime;
 
         public void SetPosition(float pos = 0f) {
-            nextPosition = minPos + (maxPos * pos * 2);
+            lastPosition = nextPosition;
+            nextPosition = pos; 
+            currentTime = 0f; 
         }//SetPosition
 
+        private void SetMeterAngle(float pos = 0f) {
+            meterAngle = minPos + (maxPos * pos * 2);
+        }//SetMeterAngle
+
         public void Update() {
-            if (handlePivot != null) handlePivot.transform.localRotation = Quaternion.AngleAxis(nextPosition, new Vector3(0f,0f,1f));
+            float lerpAmount = (currentTime / catchTime);
+            float newPosition = lastPosition + ((nextPosition - lastPosition) * lerpAmount);
+            if (currentTime < catchTime) {
+                currentTime += Time.deltaTime;
+                SetMeterAngle(newPosition);
+                if (currentTime > catchTime) currentTime = catchTime; 
+            }
+            if (handlePivot != null) handlePivot.transform.localRotation = Quaternion.AngleAxis(meterAngle, new Vector3(0f, 0f, 1f));
         }//Update
     }//UIMeter
 }//Relax

@@ -7,10 +7,11 @@ using Relax.Interface;
 
 namespace Relax.Objects.Characters {
     public class Robot : Character {
+        public Vector3 startPoint; 
         public MoveIndicator moveIndicator;
         public PickupObject pickup;
 
-        protected new void Start() {
+        protected void Start() {
             if (GetComponent<Flammable>()) GetComponent<Flammable>().OnIgnite += OnIgnite;
         }//Start
 
@@ -24,6 +25,10 @@ namespace Relax.Objects.Characters {
                     UpdateMoveIndicator(rayHit.point);
                     PlaySound(Top.GAME.GetRandomSound("robotMove"));
                     PlaySound(Top.GAME.GetRandomSound("robotMoveLoop"), 1);
+                    if (interacting) {
+                        interacting = false;
+                        CancelInteract(); 
+                    }
                 }
             }
 
@@ -43,6 +48,12 @@ namespace Relax.Objects.Characters {
             }
         }//UpdateMoveIndicator
 
+        public void Reset() {
+            gameObject.SetActive(false);
+            transform.position = startPoint;
+            gameObject.SetActive(true);
+        }//Reset
+
         public new void SetInteractionTarget(InteractableObject obj, InteractableObject.InteractionType type = InteractableObject.InteractionType.Primary, float timeToComplete = 0f) {
             UpdateMoveIndicator(obj.transform.position);
             base.SetInteractionTarget(obj, type, timeToComplete);
@@ -51,18 +62,14 @@ namespace Relax.Objects.Characters {
         }//SetInteractionTarget
 
         public void SetHeldObject(PickupObject _pickup) {
-            if (pickup == null) {
-                Top.GAME.SetPickup(_pickup);
-                _pickup.TakeObject(transform);
-                pickup = _pickup;
-                FindObjectOfType<ObjectUIController>().UnsetObject();
-            } else {
-                Top.GAME.SetMessageText("You can't carry multiple objects! Drop your held object.", Color.red, 3.5f);
-            }
+            Top.GAME.SetPickup(_pickup);
+            _pickup.TakeObject(transform);
+            pickup = _pickup;
+            FindObjectOfType<ObjectUIController>().UnsetObject();
         }//SetHeldObject
 
-        public void DropHeldObject() {
-            pickup.DropObject(transform.position);
+        public void DropHeldObject(bool dispose = false) {
+            pickup.DropObject(transform.position, dispose);
             PlaySound(Top.GAME.GetRandomSound("robotDrop"));
             pickup = null;
         }//DropHeldObject
@@ -95,5 +102,14 @@ namespace Relax.Objects.Characters {
         private void OnDestroy() {
             if (GetComponent<Flammable>()) GetComponent<Flammable>().OnIgnite -= OnIgnite;
         }//OnDestroy
+
+        public void SuperMode() {
+            navAgent.speed = 9.001f; 
+        }//SuperMode
+
+        private void OnDrawGizmos() {
+            Gizmos.color = new Color(1f,1f,1f,0.25f);
+            Gizmos.DrawSphere(startPoint, 1f);
+        }//OnDrawGizmos
     }//Robot
 }//Relax
